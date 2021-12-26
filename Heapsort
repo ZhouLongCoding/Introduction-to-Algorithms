@@ -1,0 +1,76 @@
+// The goal of this algorithm is to sort an array using the heap data structure
+public class Heapsort {
+
+	public static int input_heapsize =0; // global variable
+
+//	Method to return the Parent node
+	public static int Parent(int x) {
+		return (x-1)/2;
+	}												
+//	Method to return the left Child node
+	public static int Left(int x) {
+		return 2*x+1;
+	}
+//	Method to return the right Child node
+	public static int Right(int x) {
+		return 2*x+2;
+	}
+//	The Max Heapify procedure runs in O(log n) time and is used to maintain the max heap property
+	//	Specifically, the Max Heapify procedure assumes that the binary trees rooted at the 
+	//	Left and Right children are Max Heaps, but that input[i] might violate the Max Heap property.
+	//	Then, it moves the value at input[i] until it satisfies the Max Heap property
+	public static void Max_Heapify(int[] input, int  i){
+		int largest=i;
+		int l=Left(i);
+		int r=Right(i);
+		if(l<=input_heapsize && input[l]>input[i]) {
+			largest=l;
+		}
+		if(r<=input_heapsize && input[r]>input[largest]) {
+			largest=r;
+		}
+		if(largest!=i) {
+			int storage=input[i];
+			input[i]=input[largest];
+			input[largest]=storage;
+			Max_Heapify(input, largest);
+		}
+	}
+//	The Build Max Heap procedure runs in linear time and creates a max-heap from any input array
+	public static void Build_Max_Heap(int[] input) {
+		for(int i=(input.length)/2-1;i>=0;i--) {
+			Max_Heapify(input, i);
+		}
+	}
+
+//	Heapsort sorts an Array in place by using the Build Max Heap and Max Heapify procedures
+	//	Specifically, Heapsort first creates a Max Heap and then calls Max-Heapify n-1 times
+	//	to sort the whole array.
+	
+//	Heapsort runs in O(nlog(n)) time because Build Max Heap takes O(n) time (which is negligable)
+//	and then Max Heapify is called n-1 times, with each calling taking O(log n) time.
+	public static void heapsort (int[] input) {
+		input_heapsize=input.length-1;
+		Build_Max_Heap(input);
+		for(int i=input.length-1;i>0;i--) {
+			int storage=input[i];
+			input[i]=input[0];
+			input[0]=storage;
+			input_heapsize=input_heapsize-1;
+			Max_Heapify(input,0);
+		}
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+//		Array generation
+		int[] input = {2,4,6,3,-7,3,6,-4,18,1,0};
+//		Heapsort is called to sort the array
+		heapsort(input);
+//		All elements are printed as the output
+		for(int i=0;i<input.length;i++) {
+			System.out.println(input[i]);
+		}
+	}
+
+}
