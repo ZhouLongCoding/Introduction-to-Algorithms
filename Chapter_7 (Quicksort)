@@ -1,0 +1,42 @@
+package intro_to_algorithms;
+// 	The purpose of this algorithm is to sort an unordered Array
+public class Quicksort {
+//	Quicksort recursively calls itself to sort the sub-arrays input[p..q-1] and input[q+1..r]
+	public static void Quicksort(int[] input,int p, int r) {
+		if(p<r) {
+			int q=Partition(input,p,r);
+			Quicksort(input,p,q-1);
+			Quicksort(input,q+1,r);
+		}
+	}
+//	Partition rearranges the subarrays in place. An element acts as a "pivot" around which the 
+//	array is split
+	public static int Partition(int[] input, int p, int r) {
+		int x=input[r];
+		int i=p-1;
+		for(int j=p;j<=r-1;j++) {
+			if(input[j]<=x) {
+				i++;	
+				int temp=input[i];
+				input[i]=input[j];
+				input[j]=temp;
+			}
+			int temp=input[i+1];
+			input[i+1]=input[r];
+			input[r]=temp;
+		}
+		
+		return i;
+	}
+	
+	public static void main(String[] args) {
+		int[] array= {2,4,5,3,6,7,4,8,9,1,0,9,8,0};
+		Quicksort(array,0,array.length-1);
+		for(int i=0;i<array.length;i++) {
+			System.out.println(array[i]);
+		}
+		
+	}
+
+}
+//	I found that writing quicksort was much easier than heapsort.
